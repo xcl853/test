@@ -1,13 +1,23 @@
-/************************else*************************************************
-> File Name: test.c
-> Author: 夏椿林
-> Mail: chunlin_xia@163.com 
-> Created Time: 2020年09月14日 星期一 15时03分46秒
- ************************************************************************/
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
-#include<stdio.h>
+char buf[128] = {0};
+
 int main(int argc, const char *argv[])
 {
-	printf("hello world!");
+	int fd;
+	if((fd = open("/dev/mycdev",O_RDWR)) < 0){
+		perror("open");
+		return -1;
+	}
+
+	read(fd,buf,sizeof(buf));
+	printf("*****buf***** =%s ",buf);
+	write(fd,buf,sizeof(buf));
+
+	close(fd);
 	return 0;
 }
